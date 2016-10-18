@@ -6,7 +6,7 @@ function parseCommandLineArgs( args ) {
 		const isArgKey = arg[0] === '-';
 		let isArgValue = false;
 
-		// replace any previously undefined value for arg keys with current arg,
+		// replace any previously undefined values for arg keys with current arg key and value,
 		// or true if they current arg also starts with a dash and is presumed to be another arg key
 		argsObjInReduction = Object.keys( argsObjInReduction ).reduce( ( argsObjInUndefinedReplacement, argKey ) => {
 			let argValue = argsObjInReduction[ argKey ];
@@ -30,7 +30,7 @@ function parseCommandLineArgs( args ) {
 		// or assign it to true if it's the last arg in list with no hope of being replaces later with true.
 		if( isArgKey ) {
 			argsObjInReduction = Object.assign( argsObjInReduction, {
-				[ arg ] : index === args.length - 1 ? true : undefined
+				[ arg.slice(1) ] : index === args.length - 1 ? true : undefined
 			});
 		}
 
@@ -45,10 +45,10 @@ console.log('parseCommandLineArgs with', args );
 console.log('parseCommandLineArgs returned', argsObj );
 
 const assert = require('assert');
-assert( argsObj[ '-a' ] === 'b' );
-assert( argsObj[ '-c' ] === true );
-assert( argsObj[ '-dee' ] === 'e' );
-assert( argsObj[ '-f' ] === true );
+assert( argsObj.a === 'b' );
+assert( argsObj.c === true );
+assert( argsObj.dee === 'e' );
+assert( argsObj.f === true );
 assert( argsObj._extraArgs.length === 2 );
 assert( argsObj._extraArgs[0] === 'extra' );
 assert( argsObj._extraArgs[1] === 'something' );
