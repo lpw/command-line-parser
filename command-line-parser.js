@@ -1,7 +1,7 @@
 // Converts an array of arguments into a key value object, treating an arg starting with dash as a key.
 // Still presumes that arguments are separated from keys by a space, but that's not too bad anymore.
 // Presumes any argument starting with a dash is a key and can't be an value to previous key.
-function parseCommandLineArgs( args ) {
+function commandLineParser( args ) {
 	return args.reduce( ( argsObjInReduction, arg, index, args ) => {
 		const isArgKey = arg[0] === '-';
 		let isArgValue = false;
@@ -38,18 +38,4 @@ function parseCommandLineArgs( args ) {
 	}, {} );
 }
 
-const args = [ '/my/bin/node', './myscript.js', '-port', 8081, '-a', 'b', '-c', '-dee', 'e', 'extra', 'something', '-f' ];
-
-argsObj = parseCommandLineArgs( args );
-console.log('parseCommandLineArgs with', args );
-console.log('parseCommandLineArgs returned', argsObj );
-
-const assert = require('assert');
-assert( argsObj.port === 8081 );
-assert( argsObj.a === 'b' );
-assert( argsObj.c === true );
-assert( argsObj.dee === 'e' );
-assert( argsObj.f === true );
-assert( argsObj._extraArgs.length === 4 );
-assert( argsObj._extraArgs[2] === 'extra' );
-assert( argsObj._extraArgs[3] === 'something' );
+module.exports = commandLineParser;
