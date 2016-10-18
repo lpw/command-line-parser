@@ -1,0 +1,26 @@
+{
+  "name": "command-line-parser",
+  "version": "0.1.0",
+  "description": "",
+  "main": "command-line-parser.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lpw/command-line-parser.git"
+  },
+  "author": "github@lwelsh.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lpw/command-line-parser/issues"
+  },
+  "homepage": "https://github.com/lpw/command-line-parser#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  }
+}

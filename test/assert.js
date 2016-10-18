@@ -1,4 +1,4 @@
-const commandLineParser = require('./command-line-parser.js');
+const commandLineParser = require('../index');
 const assert = require('assert');
 
 const args = [ '/my/bin/node', './myscript.js', '-port', 8081, '-a', 'b', '-c', '-dee', 'e', 'extra', 'something', '-f' ];
