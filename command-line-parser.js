@@ -38,17 +38,18 @@ function parseCommandLineArgs( args ) {
 	}, {} );
 }
 
-const args = [ '-a', 'b', '-c', '-dee', 'e', 'extra', 'something', '-f' ];
+const args = [ '/my/bin/node', './myscript.js', '-port', 8081, '-a', 'b', '-c', '-dee', 'e', 'extra', 'something', '-f' ];
 
 argsObj = parseCommandLineArgs( args );
 console.log('parseCommandLineArgs with', args );
 console.log('parseCommandLineArgs returned', argsObj );
 
 const assert = require('assert');
+assert( argsObj.port === 8081 );
 assert( argsObj.a === 'b' );
 assert( argsObj.c === true );
 assert( argsObj.dee === 'e' );
 assert( argsObj.f === true );
-assert( argsObj._extraArgs.length === 2 );
-assert( argsObj._extraArgs[0] === 'extra' );
-assert( argsObj._extraArgs[1] === 'something' );
+assert( argsObj._extraArgs.length === 4 );
+assert( argsObj._extraArgs[2] === 'extra' );
+assert( argsObj._extraArgs[3] === 'something' );
