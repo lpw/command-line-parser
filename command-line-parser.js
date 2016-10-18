@@ -1,4 +1,4 @@
-// Converts an array of arguments into a key value object, regarind an arg starting with dash as a key.
+// Converts an array of arguments into a key value object, treating an arg starting with dash as a key.
 // Still presumes that arguments are separated from keys by a space, but that's not too bad anymore.
 // Presumes any argument starting with a dash is a key and can't be an value to previous key.
 function parseCommandLineArgs( args ) {
@@ -38,13 +38,17 @@ function parseCommandLineArgs( args ) {
 	}, {} );
 }
 
-const args = [ '-a', 'b', '-c', '-dee', 'e', '-f' ];
+const args = [ '-a', 'b', '-c', '-dee', 'e', 'extra', 'something', '-f' ];
 
 argsObj = parseCommandLineArgs( args );
-console.log('parseCommandLineArgs with', args, 'retured', argsObj );
+console.log('parseCommandLineArgs with', args );
+console.log('parseCommandLineArgs returned', argsObj );
 
 const assert = require('assert');
 assert( argsObj[ '-a' ] === 'b' );
 assert( argsObj[ '-c' ] === true );
 assert( argsObj[ '-dee' ] === 'e' );
 assert( argsObj[ '-f' ] === true );
+assert( argsObj._extraArgs.length === 2 );
+assert( argsObj._extraArgs[0] === 'extra' );
+assert( argsObj._extraArgs[1] === 'something' );
