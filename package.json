@@ -1,11 +1,8 @@
 {
   "name": "command-line-parser",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.1.2",
+  "description": "Simple lightweight function takes an array of command-line arguments and returns a parsed object",
   "main": "command-line-parser.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec"
   },
@@ -18,6 +15,16 @@
   "bugs": {
     "url": "https://github.com/lpw/command-line-parser/issues"
   },
+  "keywords": [
+    "cli",
+    "command",
+    "line",
+    "parse",
+    "parser",
+    "parsing",
+    "options",
+    "switch"
+  ],
   "homepage": "https://github.com/lpw/command-line-parser#readme",
   "devDependencies": {
     "chai": "^3.5.0",

@@ -1,7 +1,7 @@
 // Converts an array of arguments into a key value object, treating an arg starting with dash as a key.
 // Still presumes that arguments are separated from keys by a space, but that's not too bad anymore.
 // Presumes any argument starting with a dash is a key and can't be an value to previous key.
-function commandLineParser( args ) {
+function commandLineParser( args = process.argv.slice(2) ) {
 	return args.reduce( ( argsObjInReduction, arg, index, args ) => {
 		const isArgKey = arg[0] === '-';
 		let isArgValue = false;

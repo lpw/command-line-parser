@@ -1,19 +1,27 @@
-const args = [ '/my/bin/node', './myscript.js', '-port', 8081, '-a', 'b', '-c', '-dee', 'e', 'extra', 'something', '-f' ];
-
 const should = require('chai').should();
 const commandLineParser = require('../index');
 
 describe( '#commandLineParser', function() {
-  it( 'correctly parses args', function() {
-    const argsObj = commandLineParser( args );
-    argsObj.port.should.equal( 8081 );
-    argsObj.a.should.equal( 'b' );
-    argsObj.c.should.be.true;
-    argsObj.dee.should.equal( 'e' );
-    argsObj.f.should.be.true;
-    argsObj._extraArgs.should.have.length( 4 );
-    argsObj._extraArgs[2].should.equal( 'extra' );
-    argsObj._extraArgs[3].should.equal( 'something' );
-    argsObj.a.should.equal( 'b' );
+
+  it( 'correctly parses empty args', function() {
+    const argsObj = commandLineParser( [] );
+    argsObj.should.be.empty;
+    argsObj.should.be.an('object');
   });
+
+  it( 'correctly parses full args', function() {
+    process.argv = [ '/my/bin/node', './myscript.js', '-port', 8081, '-a', 'b', '-c', '-dee', 'e', 'extra', 'something', '-f' ];
+    const argsObj = commandLineParser( );
+    const { port, a, c, dee, f, _extraArgs: files } = argsObj ;
+
+    port.should.equal( 8081 );
+    a.should.equal( 'b' );
+    c.should.be.true;
+    dee.should.equal( 'e' );
+    f.should.be.true;
+    files.should.have.length( 2 );
+    files[0].should.equal( 'extra' );
+    files[1].should.equal( 'something' );
+  });
+
 });
