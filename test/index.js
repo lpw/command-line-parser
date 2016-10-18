@@ -10,11 +10,11 @@ describe( '#commandLineParser', function() {
   });
 
   it( 'correctly parses full args', function() {
-    process.argv = [ '/my/bin/node', './myscript.js', '-port', 8081, '-a', 'b', '-c', '-dee', 'e', 'extra', 'something', '-f' ];
+    process.argv = [ '/my/bin/node', './myscript.js', '-port', '8081', '-a', 'b', '-c', '-dee', 'e', 'extra', 'something', '-f' ];
     const argsObj = commandLineParser( );
-    const { port, a, c, dee, f, _extraArgs: files } = argsObj ;
+    const { port, a, c, dee, f, _args: files } = argsObj ;
 
-    port.should.equal( 8081 );
+    port.should.equal( '8081' );
     a.should.equal( 'b' );
     c.should.be.true;
     dee.should.equal( 'e' );
