@@ -2,9 +2,11 @@
 // Keys arguments start with a dash (setting true to an immediately preceding key arg).
 // Key and value arguments are separated by a space.
 
-function commandLineParser( args = process.argv.slice(2) ) {
+module.exports = function( allowMultiKey = false, args = process.argv.slice(2) ) {
 	return args.reduce( ( argsObjInReduction, arg, index, args ) => {
-		const isArgKey = arg[0] === '-';
+		const isArgKey = arg.length > 0 && arg[0] === '-';
+		// const isArgSingleKey = !allowMultiKey || arg.length > 1 && arg[0] === '-' && arg[1] === '-';
+		const isArgMultiKey = allowMultiKey && arg.length > 1 && arg[0] === '-' && arg[1] !== '-';
 		let isArgValue = false;
 
 		// replace any previously undefined values for arg keys with current arg key and value,
@@ -30,13 +32,17 @@ function commandLineParser( args = process.argv.slice(2) ) {
 		// if argument is a key, assign it a temporary value of undefined to be replaced later with next arg or true,
 		// or assign it to true if it's the last arg in list with no hope of being replaces later with true.
 		if( isArgKey ) {
-			argsObjInReduction = Object.assign( {}, argsObjInReduction, {
-				[ arg.slice(1) ] : index === args.length - 1 ? true : undefined
+			const trimmedKey = arg.replace( /-/g, ' ' ).trim();
+			const keys = trimmedKey ? isArgMultiKey ? Array.from( trimmedKey ) : [ trimmedKey ] : [] ;
+			const value = index === args.length - 1 ? true : undefined ;
+
+			keys.forEach( key => {
+				argsObjInReduction = Object.assign( {}, argsObjInReduction, {
+					[ key ] : value
+				});
 			});
 		}
 
 		return argsObjInReduction;
 	}, {} );
 }
-
-module.exports = commandLineParser;
