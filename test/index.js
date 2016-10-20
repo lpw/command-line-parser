@@ -82,4 +82,23 @@ describe( '#commandLineParser', function() {
     files[2].should.equal( 'extra' );
     files[3].should.equal( 'something' );
   });
+
+  it( 'correctly parses embedded keys', function() {
+    process.argv = [ '/my/bin/node', './myscript.js', '-n8', '--number100', '--port', '8081', '-a', 'b', '-c', '--dee', 'e', 'extra', 'something', '-f' ];
+    const argsObj = commandLineParser( { allowEmbeddedValues: true, booleanKeys: [ 'a', 'dee' ] } );
+    const { n, number, port, a, c, dee, f, _args: files } = argsObj ;
+
+    n.should.equal( '8' );
+    number.should.equal( '100' );
+    port.should.equal( '8081' );
+    a.should.be.true;
+    c.should.be.true;
+    dee.should.be.true;
+    f.should.be.true;
+    files.should.have.length( 4 );
+    files[0].should.equal( 'b' );
+    files[1].should.equal( 'e' );
+    files[2].should.equal( 'extra' );
+    files[3].should.equal( 'something' );
+  });
 });
