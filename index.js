@@ -2,11 +2,9 @@
 // Keys arguments start with a dash (setting true to an immediately preceding key arg).
 // Key and value arguments are separated by a space.
 
-module.exports = function( allowMultiKey = false, args = process.argv.slice(2) ) {
+module.exports = function( { booleanKeys = [], allowKeyGrouping = false, args = process.argv.slice(2) } = {} ) {
 	return args.reduce( ( argsObjInReduction, arg, index, args ) => {
 		const isArgKey = arg.length > 0 && arg[0] === '-';
-		// const isArgSingleKey = !allowMultiKey || arg.length > 1 && arg[0] === '-' && arg[1] === '-';
-		const isArgMultiKey = allowMultiKey && arg.length > 1 && arg[0] === '-' && arg[1] !== '-';
 		let isArgValue = false;
 
 		// replace any previously undefined values for arg keys with current arg key and value,
@@ -15,8 +13,8 @@ module.exports = function( allowMultiKey = false, args = process.argv.slice(2) )
 			let argValue = argsObjInReduction[ argKey ];
 
 			if( argValue === undefined ) {
-				argValue = isArgKey ? true : arg;
-				isArgValue = !isArgKey;
+				argValue = isArgKey ? true : arg ;
+				isArgValue = !isArgKey ;
 			}
 
 			return Object.assign( {}, argsObjInUndefinedReplacement, { [ argKey ] : argValue } );
@@ -32,9 +30,18 @@ module.exports = function( allowMultiKey = false, args = process.argv.slice(2) )
 		// if argument is a key, assign it a temporary value of undefined to be replaced later with next arg or true,
 		// or assign it to true if it's the last arg in list with no hope of being replaces later with true.
 		if( isArgKey ) {
+			const isArgGroupKey = allowKeyGrouping && arg.length > 2 && arg[0] === '-' && arg[1] !== '-';
 			const trimmedKey = arg.replace( /-/g, ' ' ).trim();
-			const keys = trimmedKey ? isArgMultiKey ? Array.from( trimmedKey ) : [ trimmedKey ] : [] ;
-			const value = index === args.length - 1 ? true : undefined ;
+			const keys = trimmedKey ?
+				isArgGroupKey ?
+					Array.from( trimmedKey ) :
+					[ trimmedKey ] :
+				[] ;
+			const value = index === args.length - 1 ||
+					isArgGroupKey ||
+					booleanKeys.indexOf( trimmedKey ) !== -1 ?
+				true :
+				undefined ;
 
 			keys.forEach( key => {
 				argsObjInReduction = Object.assign( {}, argsObjInReduction, {
@@ -43,6 +50,6 @@ module.exports = function( allowMultiKey = false, args = process.argv.slice(2) )
 			});
 		}
 
-		return argsObjInReduction;
+		return argsObjInReduction ;
 	}, {} );
 }
