@@ -45,26 +45,23 @@ module.exports = function( {
 		// Otherwise set its value temporarily to undefined to be replaced later with next arg or true.
 		if( isArgKey ) {
 			const isArgGroupKey = allowKeyGrouping && arg.length > 2 && arg[0] === '-' && arg[1] !== '-';
-			let trimmedKey = arg.replace( /-/g, ' ' ).trim();
+			let trimmedKey = arg // remove leading dashes, trim space, and convert any embedded dashes or spaces to camelCase
+				.replace( /^-*/g, '' )
+				.trim()
+				.replace(/(-+|\s+)\w/g, function (g) { return g[g.length - 1].toUpperCase(); });
 			let value ;
 			const embeddedValueObject = allowEmbeddedValues && getEmbeddedKeyValue( trimmedKey );
 
 			if( embeddedValueObject ) {
 				trimmedKey = embeddedValueObject.key ;
 				value = embeddedValueObject.value ;
-			} else if( index === args.length - 1 ||
-					isArgGroupKey ||
-					booleanKeys.indexOf( trimmedKey ) !== -1 ) {
+			} else if( index === args.length - 1 || isArgGroupKey || booleanKeys.indexOf( trimmedKey ) !== -1 ) {
 				value = true ;
 			} else {
 				value = undefined ;
 			}
 
-			const keys = trimmedKey ?
-				isArgGroupKey ?
-					Array.from( trimmedKey ) :
-					[ trimmedKey ] :
-				[] ;
+			const keys = trimmedKey ? isArgGroupKey ? Array.from( trimmedKey ) : [ trimmedKey ] : [] ;
 
 			keys.forEach( key => {
 				argsObjInReduction = Object.assign( {}, argsObjInReduction, {
@@ -75,4 +72,4 @@ module.exports = function( {
 
 		return argsObjInReduction ;
 	}, {} );
-}
+};

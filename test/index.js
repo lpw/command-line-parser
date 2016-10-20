@@ -101,4 +101,22 @@ describe( '#commandLineParser', function() {
     files[2].should.equal( 'extra' );
     files[3].should.equal( 'something' );
   });
+
+  it( 'correctly removes leading dashes from keys', function() {
+    process.argv = [ '/my/bin/node', './myscript.js', '-n8', '--------------number100' ];
+    const argsObj = commandLineParser();
+    const { n8, number100 } = argsObj ;
+
+    n8.should.be.true;
+    number100.should.be.true;
+  });
+
+  it( 'correctly converts keys with embedded spaces or dashes to camelCase', function() {
+    process.argv = [ '/my/bin/node', './myscript.js', '--po-rt', '8081', '--d-e e' ];
+    const argsObj = commandLineParser();
+    const { poRt, dEE } = argsObj ;
+
+    poRt.should.equal( '8081' );
+    dEE.should.be.true;
+  });
 });
