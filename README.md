@@ -27,7 +27,9 @@ There's a few ways in which ```foo``` might not find a value:
 * there are no more arguments
 * ```foo``` is set in ```booleanKeys``` of config (an optional argument):
 ```
-const argsObj = require('command-line-parser')({ booleanKeys: [ 'foo' ] });
+const argsObj = require('command-line-parser')({
+	booleanKeys: [ 'foo' ]
+});
 ```
 A key with multiple leading dashes such as ```--debug``` will be the same as ```-debug``` (with the exception of overriding the optional argument ```allowKeyGrouping``` described below).
 
@@ -46,7 +48,9 @@ node ./myscript.js -n8
 ```
 by setting ```allowEmbeddedValues``` in the config:
 ```
-const argsObj = require('command-line-parser')({ allowEmbeddedValues: true });
+const argsObj = require('command-line-parser')({
+	allowEmbeddedValues: true
+});
 ```
 to give the result
 ```
@@ -61,7 +65,9 @@ node ./myscript.js -abc
 ```
 when parsed by
 ```
-const argsObj = require('command-line-parser')({ allowKeyGrouping: true });
+const argsObj = require('command-line-parser')({
+	allowKeyGrouping: true
+});
 ```
 gives the result
 ```

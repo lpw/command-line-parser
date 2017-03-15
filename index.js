@@ -48,7 +48,7 @@ module.exports = function( {
 			let trimmedKey = arg // remove leading dashes, trim space, and convert any embedded dashes or spaces to camelCase
 				.replace( /^-*/g, '' )
 				.trim()
-				.replace(/(-+|\s+)\w/g, function (g) { return g[g.length - 1].toUpperCase(); });
+				.replace(/(-+|\s+)\w/g, g => g[g.length - 1].toUpperCase() );
 			let value ;
 			const embeddedValueObject = allowEmbeddedValues && getEmbeddedKeyValue( trimmedKey );
 
