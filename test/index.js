@@ -5,14 +5,14 @@ describe( '#commandLineParser', function() {
 
   it( 'correctly parses empty args', function() {
     const argsObj = commandLineParser( { args: [] } );
-    argsObj.should.be.empty;
     argsObj.should.be.an('object');
+    argsObj.should.deep.equal( { _args: [] } );  // nearly should.be.empty
   });
 
   it( 'correctly parses just dash args', function() {
     const argsObj = commandLineParser( { args: [ '-', '--', '---' ] } );
-    argsObj.should.be.empty;
     argsObj.should.be.an('object');
+    argsObj.should.deep.equal( { _args: [] } );  // nearly should.be.empty
   });
 
   it( 'correctly parses full args', function() {

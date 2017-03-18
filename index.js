@@ -16,6 +16,7 @@ module.exports = function( {
 		allowEmbeddedValues = false,
 		args = process.argv.slice(2)
 	} = {} ) {
+
 	return args.reduce( ( argsObjInReduction, arg, index, args ) => {
 		const isArgKey = arg.length > 0 && arg[0] === '-';
 		let isArgValue = false;
@@ -71,5 +72,5 @@ module.exports = function( {
 		}
 
 		return argsObjInReduction ;
-	}, {} );
+	}, { _args: [] } );
 };

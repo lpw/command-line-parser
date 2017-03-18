@@ -37,6 +37,11 @@ A key with embedded dashes or spaces will be converted to ```camelCase``` from `
 
 Arguments that don't fulfill the role of a key or a value will be added in an array to a key called ```_args``` in the parsed object.
 
+To avoid any arguments intended for ```_args``` from becoming the unintentional value of a preceding boolean key, either specify that boolean key in ```booleanKeys``` of config, or follow that boolean key with a placeholder argument such as a single ```-``` or double dash ```--``` on the command line.
+```
+node ./myscript.js -d -- foo1 foo2 foo3
+```
+
 ### Embedding numerical values within keys
 Instead of having to separate a numerical argument from its key:
 ```
