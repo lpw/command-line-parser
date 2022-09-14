@@ -1,6 +1,6 @@
 {
   "name": "command-line-parser",
-  "version": "0.1.10",
+  "version": "0.2.10",
   "description": "Simple lightweight function takes an array of command-line arguments and returns a parsed object",
   "main": "index.js",
   "scripts": {
